@@ -2,12 +2,21 @@ from unittest.mock import MagicMock
 
 from django.db import DEFAULT_DB_ALIAS, connection, connections
 from django.db.backends.base.base import BaseDatabaseWrapper
+from django.db.backends.dummy.base import DatabaseWrapper
 from django.test import SimpleTestCase, TestCase
+from django.utils.connection import ConnectionProxy
 
 from ..models import Square
 
 
 class DatabaseWrapperTests(SimpleTestCase):
+
+    def test_repr(self):
+        settings = ConnectionProxy(connections, DEFAULT_DB_ALIAS).settings_dict.copy()
+        self.assertEqual(
+            repr(DatabaseWrapper(settings)),
+            "<DatabaseWrapper settings_dict={'ENGINE': 'django.db.backends.sqlite3',... alias=default>"
+        )
 
     def test_initialization_class_attributes(self):
         """

@@ -107,6 +107,13 @@ class BaseDatabaseWrapper:
         self.ops = self.ops_class(self)
         self.validation = self.validation_class(self)
 
+    def __repr__(self):
+        return '<%s settings_dict=%s... alias=%s>' % (
+            self.__class__.__qualname__,
+            repr(self.settings_dict)[:40],
+            self.alias
+        )
+
     def ensure_timezone(self):
         """
         Ensure the connection's timezone is set to `self.timezone_name` and
