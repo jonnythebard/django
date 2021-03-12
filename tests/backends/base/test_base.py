@@ -15,7 +15,7 @@ class DatabaseWrapperTests(SimpleTestCase):
         settings = ConnectionProxy(connections, DEFAULT_DB_ALIAS).settings_dict.copy()
         self.assertEqual(
             repr(DatabaseWrapper(settings)),
-            "<DatabaseWrapper settings_dict={'ENGINE': 'django.db.backends.sqlite3',... alias=default>"
+            "<DatabaseWrapper vendor='unknown' alias='default'>"
         )
 
     def test_initialization_class_attributes(self):

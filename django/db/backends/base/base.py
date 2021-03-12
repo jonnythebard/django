@@ -108,9 +108,9 @@ class BaseDatabaseWrapper:
         self.validation = self.validation_class(self)
 
     def __repr__(self):
-        return '<%s settings_dict=%s... alias=%s>' % (
+        return "<%s vendor='%s' alias='%s'>" % (
             self.__class__.__qualname__,
-            repr(self.settings_dict)[:40],
+            self.vendor,
             self.alias
         )
 
