@@ -4,6 +4,8 @@ from datetime import date, datetime
 
 from django.core.exceptions import FieldError
 from django.db import connection, models
+from django.db.models.sql.query import Query
+from django.db.models.query_utils import Q
 from django.test import SimpleTestCase, TestCase, override_settings
 from django.test.utils import register_lookup
 from django.utils import timezone
@@ -216,6 +218,18 @@ class DateTimeTransform(models.Transform):
 
 
 class LookupTests(TestCase):
+
+    def test_repr(self):
+        lhs_kwargs = {
+            "target": Author.age.field,
+            "field": Author.age.field,
+            "alias": "custom_lookups_author"
+        }
+        lookup = Div3Lookup(Query(Author)._get_col(**lhs_kwargs), 0)
+        self.assertEqual(
+            repr(lookup),
+            '<Div3Lookup lhs=Col(custom_lookups_author, custom_lookups.Author.age) rhs=0>'
+        )
 
     def test_custom_name_lookup(self):
         a1 = Author.objects.create(name='a1', birthdate=date(1981, 2, 16))
